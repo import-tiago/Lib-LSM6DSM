@@ -16,8 +16,8 @@ LSM6DSM::Error_t LSM6DSM::begin() {
     return ERROR_NONE;
 }
 
-void LSM6DSM::configure(Ascale_t ascale, Gscale_t gscale, Rate_t aodr, Rate_t godr,
-    float accelBias[3], float gyroBias[3]) {
+void LSM6DSM::configure(Ascale_t ascale, Gscale_t gscale, Rate_t aodr, Rate_t godr, float accelBias[3], float gyroBias[3]) {
+
     _ascale = ascale;
     _gscale = gscale;
     _aodr = aodr;
@@ -28,11 +28,19 @@ void LSM6DSM::configure(Ascale_t ascale, Gscale_t gscale, Rate_t aodr, Rate_t go
     _ares = areses[_ascale] / 32768.f;
     _gres = greses[_gscale] / 32768.f;
 
-    memcpy(_accelBias, accelBias, sizeof(_accelBias));
-    memcpy(_gyroBias, gyroBias, sizeof(_gyroBias));
+    if (accelBias)
+        memcpy(_accelBias, accelBias, sizeof(_accelBias));
+    else
+        memset(_accelBias, 0, sizeof(_accelBias));
 
-    writeRegister(0x10, _aodr << 4 | _ascale << 2);
-    writeRegister(0x11, _godr << 4 | _gscale << 2);
+    if (gyroBias)
+        memcpy(_gyroBias, gyroBias, sizeof(_gyroBias));
+    else
+        memset(_gyroBias, 0, sizeof(_gyroBias));
+
+    writeRegister(0x10, _aodr << 4 | _ascale << 2); // CTRL1_XL
+    writeRegister(0x11, _godr << 4 | _gscale << 2); // CTRL2_G
+
     writeRegister(0x12, readRegister(0x12) | 0x40 | 0x04); // BDU + auto-increment
     writeRegister(0x17, 0x80 | 0x40 | 0x08);               // CTRL8_XL
 }
@@ -160,7 +168,7 @@ void LSM6DSM::enableWakeUpInterrupt(float threshold_g, uint8_t duration_odr_cycl
 
     // TAP_CFG (0x58): enable basic interrupts + HPF
     uint8_t cfg = readRegister(0x58);
-    cfg |= 0x88;  // bit 7 = INTERRUPTS_ENABLE, bit 3 = HPF enable
+    cfg |= 0x88;    // bit 7 = INTERRUPTS_ENABLE, bit 3 = HPF enable
     cfg &= ~(0x07); // clear tap axis bits
     writeRegister(0x58, cfg);
 
@@ -168,9 +176,9 @@ void LSM6DSM::enableWakeUpInterrupt(float threshold_g, uint8_t duration_odr_cycl
     if (pin == INT1) {
         uint8_t md1 = readRegister(0x5E);
         writeRegister(0x5E, md1 | 0x20); // bit 5 = wake-up on INT1
-    } else {
+    }
+    else {
         uint8_t md2 = readRegister(0x5F);
         writeRegister(0x5F, md2 | 0x20); // bit 5 = wake-up on INT2
     }
 }
-

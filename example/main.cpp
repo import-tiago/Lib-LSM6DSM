@@ -38,8 +38,7 @@ void setup(void) {
 
     if (imu.begin() != LSM6DSM::ERROR_NONE) {
         Serial.println("IMU not found.");
-        while (1)
-            ;
+        while (1);
     }
 
     float accelBias[3] = {0.0, 0.0, 0.0};
@@ -53,7 +52,7 @@ void setup(void) {
         accelBias,
         gyroBias);
 
-    imu.enableWakeUpInterrupt(0.1, 1, LSM6DSM::INT1);
+    imu.enableWakeUpInterrupt(0.1, 1, LSM6DSM::INT1);  // threshold = 0.1g, duration = 1 ODR cycle, routed to INT1
 }
 
 void loop() {
