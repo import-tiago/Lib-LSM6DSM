@@ -43,7 +43,7 @@ void setup() {
     nullptr,
     nullptr);
 
-    imu.enableWakeUpInterrupt(0.3, 1, LSM6DSM::INT1);
+    imu.enableWakeUpInterrupt(0.3, 1, LSM6DSM::INT1); // threshold = 0.3g, duration = 1 ODR cycle, routed to INT1
 }
 
 void loop() {
