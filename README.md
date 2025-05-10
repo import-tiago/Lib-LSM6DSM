@@ -2,6 +2,10 @@
 
 An Arduino-compatible library for interfacing with the **ST LSM6DSM** I²C 6-axis inertial measurement unit (IMU), supporting **accelerometer**, **gyroscope**, and **interrupt-driven motion detection**.
 
+<p align="center">
+  <img src="assets/part.png" alt="Part Image" width="300">
+</p>
+
 ## Key Features
 
 - Configurable accelerometer and gyroscope (scale, ODR)
