@@ -15,12 +15,6 @@ An Arduino-compatible library for interfacing with the **ST LSM6DSM** I²C 6-axi
 ## Basic Usage
 
 ```cpp
-#include <Wire.h>
-#include "LSM6DSM.h"
-
-#define IMU_INT_PIN 17
-#define IMU_SA0     16
-#define IMU_CS      18
 
 LSM6DSM imu;
 volatile bool motionDetected = false;
@@ -40,15 +34,34 @@ void setup() {
     Wire.begin(48, 47); // SDA, SCL
 
     imu.begin();
-    imu.configure(LSM6DSM::AFS_2G, LSM6DSM::GFS_1000DPS, LSM6DSM::ODR_208Hz, LSM6DSM::ODR_208Hz, nullptr, nullptr);
-    imu.enableWakeUpInterrupt(0.5, 1, LSM6DSM::INT1);
+
+    imu.configure(
+    LSM6DSM::AFS_2G,
+    LSM6DSM::GFS_1000DPS,
+    LSM6DSM::ODR_208Hz,
+    LSM6DSM::ODR_208Hz,
+    nullptr,
+    nullptr);
+
+    imu.enableWakeUpInterrupt(0.3, 1, LSM6DSM::INT1);
 }
 
 void loop() {
+
+    float ax, ay, az, gx, gy, gz;
+    imu.readData(ax, ay, az, gx, gy, gz);
+    Serial.print(ax);
+    Serial.print(",");
+    Serial.print(ay);
+    Serial.print(",");
+    Serial.println(az);
+
     if (motionDetected) {
         motionDetected = false;
         Serial.println("Wake-up interrupt triggered!");
     }
+
+    delay(50);
 }
 ```
 
@@ -58,11 +71,21 @@ void loop() {
 
 ![LSM6DSM Modes](assets/modes.png)
 
+> This library supports only **Mode 1** and **I²C communication**. SPI mode and advanced configurations are not implemented.
+
 ---
 
 ## Basic Circuit
 
 ![LSM6DSM Circuit](assets/circuit.png)
+
+> To use I²C mode and the default address `0x6A`, configure your board as follows:
+
+```cpp
+digitalWrite(IMU_SA0, LOW);  // LOW = 0x6A, HIGH = 0x6B
+digitalWrite(IMU_CS, HIGH);  // HIGH = I²C, LOW = SPI (not supported)
+```
+
 
 ---
 
