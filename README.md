@@ -111,5 +111,3 @@ This library was tested with:
 - **ESP32 Arduino Core v3.2.0**  
   Based on **ESP-IDF v5.4.1**  
   [GitHub Release: espressif/arduino-esp32 v3.2.0](https://github.com/espressif/arduino-esp32/releases/tag/3.2.0)
-
-> Recommended for use with ESP32. No internal Wire.begin() — I²C must be initialized in user code.
