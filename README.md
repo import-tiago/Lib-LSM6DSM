@@ -104,6 +104,12 @@ digitalWrite(IMU_CS, HIGH);  // HIGH = I²C, LOW = SPI (not supported)
 
 ---
 
+## Documentation & Reference
+
+- [LSM6DSM Datasheet (PDF)](assets/LSM6DSM.pdf)
+
+---
+
 ## Compatibility
 
 This library was tested with:
