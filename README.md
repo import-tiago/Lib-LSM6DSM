@@ -17,6 +17,7 @@ An Arduino-compatible library for interfacing with the **ST LSM6DSM** I²C 6-axi
 ```cpp
 
 LSM6DSM imu;
+
 volatile bool motionDetected = false;
 
 void IRAM_ATTR onMotionInterrupt() {
