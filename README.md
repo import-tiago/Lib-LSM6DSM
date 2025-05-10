@@ -36,7 +36,7 @@ void setup() {
     pinMode(IMU_INT_PIN, INPUT_PULLUP);
     attachInterrupt(IMU_INT_PIN, onMotionInterrupt, RISING);
 
-    Wire.begin(48, 47); // SDA, SCL
+    Wire.begin(48, 47); // SDA, SCL (or use Wire.begin() for default pins)
 
     imu.begin();
 
