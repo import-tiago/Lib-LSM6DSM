@@ -29,11 +29,13 @@ void IRAM_ATTR onMotionInterrupt() {
 }
 
 void setup() {
+
     Serial.begin(19200);
 
     pinMode(IMU_SA0, OUTPUT); digitalWrite(IMU_SA0, LOW);
     pinMode(IMU_CS, OUTPUT);  digitalWrite(IMU_CS, HIGH);
     pinMode(IMU_INT_PIN, INPUT_PULLUP);
+
     attachInterrupt(IMU_INT_PIN, onMotionInterrupt, RISING);
 
     Wire.begin(48, 47); // SDA, SCL (or use Wire.begin() for default pins)
