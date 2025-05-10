@@ -90,7 +90,7 @@ digitalWrite(IMU_CS, HIGH);  // HIGH = I²C, LOW = SPI (not supported)
 
 ---
 
-## Serial Plot Example
+## Serial Output
 
 ![LSM6DSM Serial Plot](assets/serial-plot.png)
 
